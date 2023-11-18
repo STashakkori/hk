@@ -1,0 +1,51 @@
+<style>
+  body{font-family:sans-serif;background-color:black;color:cyan;}input{background-color:black;color:cyan;border:1px
+  solid magenta;padding:5px 10px;cursor:pointer;}button{background-color:black;color:cyan;border:1px
+  solid cyan;padding:5px 10px;cursor:pointer;}
+</style>
+hk&gt; dec
+<input type="file" id="fileInput">
+<input type="file" id="keyInput">
+<button onclick="decryptAndDownload()">
+  \n
+</button>
+<script>
+  async
+  function decryptAndDownload() {
+    const file = document.getElementById('fileInput').files[0];
+    const keyFile = document.getElementById('keyInput').files[0];
+    if (!file || !keyFile) {
+      alert('Upload both file and key');
+      return;
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = async(e) = >{
+      const encryptedData = e.target.result;
+      const keyReader = new FileReader();
+      keyReader.onload = async(e) = >{
+        const keyData = e.target.result;
+        const key = await crypto.subtle.importKey('raw', keyData, {
+          name: 'AES-GCM'
+        },
+        false, ['decrypt']);
+        const iv = new Uint8Array(12);
+        const decryptedData = await crypto.subtle.decrypt({
+          name: 'AES-GCM',
+          iv
+        },
+        key, new Uint8Array(encryptedData));
+        download(new Blob([decryptedData]), 'plaintxt.txt');
+      };
+      keyReader.readAsArrayBuffer(keyFile);
+    };
+    fileReader.readAsArrayBuffer(file);
+  }
+  function download(blob, filename) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+</script>
