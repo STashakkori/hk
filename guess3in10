@@ -1,0 +1,45 @@
+<style>
+  body{margin:0;background:black;color:cyan;text-align:center;}#guess,#check,#reset{margin:10px;background:black;color:cyan;border:1px
+  solid magenta;padding:5px;}
+</style>
+<input id="guess" type="number" placeholder="Enter number" />
+<button id="check">
+  Guess
+</button>
+<button id="reset">
+  Reset
+</button>
+<div id="result">
+</div>
+<div id="lowScore">
+  Low Score: --
+</div>
+<script>
+  var t = Math.floor(Math.random() * 5) + 1,
+  a = 3,
+  ls = Infinity;
+  document.getElementById('check').onclick = function() {
+    var g = document.getElementById('guess').value,
+    r = document.getElementById('result');
+    if (a == 0) {
+      r.innerText = 'Game over. Number was ' + t;
+      ls = Math.min(ls, a);
+      document.getElementById('lowScore').innerText = 'Low Score: ' + ls;
+      return;
+    }
+    if (g == t) {
+      r.innerText = 'Correct! Congrats!';
+      ls = Math.min(ls, a);
+      document.getElementById('lowScore').innerText = 'Low Score: ' + ls;
+    } else {
+      a--;
+      g < t ? r.innerText = 'Higher! Attempts left: ' + a: r.innerText = 'Lower! Attempts left: ' + a;
+    }
+  };
+  document.getElementById('reset').onclick = function() {
+    t = Math.floor(Math.random() * 5) + 1;
+    a = 3;
+    document.getElementById('result').innerText = '';
+    document.getElementById('guess').value = '';
+  }
+</script>
