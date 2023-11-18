@@ -1,0 +1,92 @@
+<style>
+  body{margin:0;background:black;color:cyan;}#box{width:50px;height:50px;background:red;position:absolute;}#control{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}#msg{color:cyan;}
+</style>
+<div id="box">
+</div>
+<button id="control">
+  Toggle
+</button>
+<div id="highScore">
+  High Score: 0
+</div>
+<div id="status">
+  Standing by
+</div>
+<div id="clicks">
+  Clicks: 0
+</div>
+<div id="t">
+  Time: 0
+</div>
+<div id="msg">
+</div>
+<script>
+  var b = document.getElementById('box'),
+  c = document.getElementById('control'),
+  h = document.getElementById('highScore'),
+  s = document.getElementById('status'),
+  k = document.getElementById('clicks'),
+  ti = document.getElementById('t'),
+  msg = document.getElementById('msg'),
+  sc = 0,
+  hsc = 0,
+  tl = 0,
+  go = true,
+  t;
+  function uStatus() {
+    s.innerText = go ? 'Standing by': 'Game in Play';
+  }
+  function updateTime() {
+    ti.innerText = 'Time: ' + tl;
+  }
+  c.onclick = function() {
+    if (t) {
+      clearInterval(t);
+    }
+    msg.innerText = '';
+    go = false;
+    uStatus();
+    sc = 0;
+    tl = 30;
+    updateTime();
+    b.style.display = 'block';
+    m();
+    k.innerText = 'Clicks: 0';
+    t = setInterval(function() {
+      if (tl > 0) {
+        tl--;
+        updateTime();
+      } else if (!go) {
+        go = true;
+        b.style.display = 'none';
+        uStatus();
+        if (sc > hsc) {
+          hsc = sc;
+          h.innerText = 'High Score: ' + hsc;
+        }
+        msg.innerText = 'Congrats!';
+        alert('Game over! Score: ' + sc + ' Congrats!');
+        clearInterval(t);
+      }
+    },
+    300);
+  };
+  b.onclick = function() {
+    if (!go) {
+      sc++;
+      k.innerText = 'Clicks: ' + sc;
+      m();
+    }
+  };
+  function m() {
+    do {
+      b.style.top = Math.random() * 69 + 'vh';
+      b.style.left = Math.random() * 69 + 'vw';
+    } while ( o ());
+  }
+  function o() {
+    var br = b.getBoundingClientRect(),
+    cr = c.getBoundingClientRect();
+    return ! (br.right < cr.left || br.left > cr.right || br.bottom < cr.top || br.top > cr.bottom);
+  }
+</script>
