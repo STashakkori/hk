@@ -1,0 +1,75 @@
+<style>
+    body {
+        font-family: sans-serif;
+        background-color: black;
+        color: cyan;
+        text-align: center;
+    }
+
+    input {
+        background-color: black;
+        color: cyan;
+        border: 1px solid magenta;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    button {
+        background-color: black;
+        color: cyan;
+        border: 1px solid cyan;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>hk&gt; pub <input id="i" type="text"> <button onclick="a()">\n</button>
+<div id="m"></div>
+<div id="b" style="display:none;"><input id="s" type="text" placeholder="hk> " onclick="u()"><button onclick="c()">Execute</button>
+    <div id="o"></div>
+</div>
+<script>
+    var h = {
+            'hkname.org': true
+        },
+        b = false;
+
+    function a() {
+        var v = document.getElementById('i').value,
+            m = document.getElementById('m'),
+            d = document.getElementById('b');
+        if (!v) {
+            m.innerText = 'Enter a value';
+            return;
+        }
+        if (h[v]) {
+            m.innerText = 'Collision- pri for new hkname_pub';
+            return;
+        }
+        h[v] = true;
+        b = true;
+        m.innerText = 'User added to group. Permissions upgrade.';
+        d.style.display = 'block';
+    }
+
+    function c() {
+        var x = document.getElementById('s').value,
+            o = document.getElementById('o'),
+            s = document.getElementById('s');
+        if (x == 'who root') {
+            o.innerText = 'hk> Loaded...###pwndexplt_b8000000';
+            s.value = '';
+            s.placeholder = 'root@linux> ';
+        } else if (x == 'whoami && uname -a' || s.placeholder == 'whoami && uname -a') {
+            location.reload();
+        } else if (x.startsWith('who ')) {
+            var k = x.split(' ')[1];
+            o.innerText = h[k] !== undefined ? (k == 'hkname.org' ? 'me' : h[k] ? 'you' : 'not you') : 'not found';
+        }
+    }
+
+    function u() {
+        var s = document.getElementById('s');
+        if (s.placeholder == 'root@linux> ') {
+            s.placeholder = 'whoami && uname -a';
+        }
+    }
+</script>
